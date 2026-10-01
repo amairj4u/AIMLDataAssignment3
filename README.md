@@ -1,21 +1,9 @@
 # Comparing Classifiers: Predicting Bank Term-Deposit Subscriptions
 
-**Practical Application Assignment 3** — comparing K-Nearest Neighbors, Logistic Regression,
+**Practical Application Assignment 3** comparing K-Nearest Neighbors, Logistic Regression,
 Decision Trees, and Support Vector Machines on a Portuguese bank's telemarketing data.
 
-📓 **[Open the Jupyter Notebook →](bank_marketing_classifier_comparison.ipynb)**
-
 ---
-
-## Repository structure
-
-```
-.
-├── README.md                                    <- You are here
-├── bank_marketing_classifier_comparison.ipynb   <- Full analysis, with outputs
-└── data/
-    └── bank-additional-full.csv                 <- Source data (41,188 calls, 20 inputs)
-```
 
 **Data source:** UCI Machine Learning Repository — *Bank Marketing* dataset
 (Moro, S., Cortez, P. & Rita, P., 2014).
@@ -27,8 +15,8 @@ Decision Trees, and Support Vector Machines on a Portuguese bank's telemarketing
 A Portuguese bank sells term deposits by calling customers on the phone. **Only about 11 in
 every 100 calls ends in a sale**, so roughly 89% of the call centre's effort produces nothing.
 
-> **Can we predict, before we dial, which customers are likely to say yes — so agents spend their
-> limited hours on the most promising people?**
+**Can we predict, before we dial, which customers are likely to say yes — so agents spend their
+limited hours on the most promising people?**
 
 This is a binary classification problem. The target is `y` (did the customer subscribe?), and the
 model's job is to **rank** customers so the bank can call the top of the list first.
@@ -76,7 +64,7 @@ hides the difference that matters.
 
 | Model | CV AUC | Test ROC-AUC | Accuracy | Recall | Precision | F1 |
 |---|---|---|---|---|---|---|
-| **Logistic Regression** ⭐ | **0.791** | 0.801 | 0.830 | **0.648** | 0.360 | **0.463** |
+| **Logistic Regression** | **0.791** | 0.801 | 0.830 | **0.648** | 0.360 | **0.463** |
 | Decision Tree | 0.786 | **0.806** | 0.899 | 0.263 | 0.627 | 0.371 |
 | KNN | 0.769 | 0.784 | 0.900 | 0.241 | 0.659 | 0.353 |
 | SVM | 0.714 | 0.701 | 0.899 | 0.179 | 0.692 | 0.284 |
@@ -127,57 +115,6 @@ in this dataset was called **56 times**.
 ### 6. Mobile beats landline roughly three to one
 Cellular contacts convert at 14.7%, landline at 5.2%.
 
-### A methodological caveat worth reading
-The economic indicators are correlated above 0.9 with each other. This **multicollinearity** makes
-individual coefficients unstable — `euribor3m` even flips sign once `emp.var.rate` is in the
-model. Predictions are unaffected, but the economic indicators must be read as **one combined
-block**, never as separate levers. Section 10 of the notebook explains this in detail.
-
 ---
 
-## Recommendations
-
-**Immediate, no new technology required**
-1. **Pilot the model** — score next quarter's list, have half the agents work the ranked list and
-   half work as usual, then compare sales per hour after four weeks.
-2. **Cap campaigns at three attempts** per customer.
-3. **Move calling capacity out of May** and into March, September, October and December.
-4. **Build a dedicated "previous acceptor" list** and route it to the most experienced agents.
-
-**Next modeling iteration**
-5. Try **ensemble models** (Random Forest, Gradient Boosting, XGBoost) — typically worth
-   +0.02–0.05 AUC on tabular data like this.
-6. **Tune the threshold to money, not to a statistic**, once finance supplies the cost per call
-   and profit per deposit.
-7. **Add features the bank already owns**: account balance, tenure, product holdings, recent
-   transactions, digital engagement. These will likely beat any further algorithm tuning.
-
-**Before going live**
-8. **Re-train on the last two years of calls.** This data covers 2008–2010, including a financial
-   crisis — the economic patterns it learned may no longer hold.
-9. **Schedule quarterly re-training** and monitor AUC drift.
-10. **Run a fairness review** (e.g. confirm older customers are not systematically excluded) and
-    keep a small random control group in every campaign to keep measuring true lift.
-
----
-
-## Limitations
-
-- The models find **patterns, not causes**. They show who tends to say yes, not what would happen
-  if the bank changed its behaviour.
-- Results depend heavily on the 2008–2010 economic climate.
-- `duration` was deliberately excluded. Published results that include it look far more accurate
-  and are not usable in practice.
-
----
-
-## Running the notebook
-
-```bash
-pip install pandas numpy scikit-learn seaborn matplotlib plotly scipy jupyter
-jupyter notebook bank_marketing_classifier_comparison.ipynb
-```
-
-All outputs are already saved in the notebook, so it can be read without running anything.
-A full re-run takes about 3 minutes; the SVM grid search is the slow part and is deliberately
-tuned on an 8,000-row stratified sample before being refitted on the full training set.
+**[Link Jupyter Notebook →](bank_marketing_classifier_comparison.ipynb)**
